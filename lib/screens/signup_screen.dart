@@ -151,7 +151,6 @@ class _SingUpScreenState extends State<SingUpScreen> {
           ),
           Flexible(
             child: Container(),
-            flex: 2,
           ),
         ]),
       ),
