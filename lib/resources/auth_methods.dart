@@ -37,7 +37,7 @@ class AuthMethods {
           'uid': cred.user!.uid,
           'fallowers': [],
           'fallowing': [],
-          photoUrl: photoUrl,
+          'photoUrl': photoUrl,
         });
         res = 'Success';
       }
