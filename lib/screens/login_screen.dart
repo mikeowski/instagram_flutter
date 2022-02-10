@@ -5,7 +5,6 @@ import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/utils/utils.dart';
 import 'package:instagram_flutter/widgets/text_field_input.dart';
 import 'package:instagram_flutter/resources/auth_methods.dart';
-
 import '../responsive/mobile_screen_layout.dart';
 import '../responsive/responsive_layout_screen.dart';
 import '../responsive/web_screen_layout.dart';
@@ -120,9 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
           ),
-          const SizedBox(
-            height: 12,
-          ),
           Flexible(
             child: Container(),
           ),
@@ -134,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text("Don't have an account? "),
                 padding: const EdgeInsets.symmetric(vertical: 8),
               ),
-              GestureDetector(
+              InkWell(
                 onTap: navigateToSignupScreen,
                 child: Container(
                   child: const Text(
