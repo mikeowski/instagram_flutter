@@ -6,6 +6,10 @@ import 'package:instagram_flutter/utils/utils.dart';
 import 'package:instagram_flutter/widgets/text_field_input.dart';
 import 'package:instagram_flutter/resources/auth_methods.dart';
 
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -32,12 +36,28 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text, password: _passwordController.text);
 
     if (res == 'Success') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+          ),
+        ),
+      );
     } else {
       showSnackBar(res, context);
     }
     setState(() {
       isLoading = false;
     });
+  }
+
+  void navigateToSignupScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SingUpScreen(),
+      ),
+    );
   }
 
   @override
@@ -115,10 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
               ),
               GestureDetector(
-                onTap: () async {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SingUpScreen()));
-                },
+                onTap: navigateToSignupScreen,
                 child: Container(
                   child: const Text(
                     "Sign up",
