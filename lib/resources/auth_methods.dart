@@ -64,4 +64,15 @@ class AuthMethods {
     }
     return res;
   }
+
+  Future<String> logOutUser() async {
+    String res = "an error occured";
+    try {
+      await _auth.signOut();
+      res = 'Success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
 }
