@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_flutter/resources/auth_methods.dart';
+import 'package:instagram_flutter/screens/login_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/utils/utils.dart';
 
@@ -53,7 +54,10 @@ class _SingUpScreenState extends State<SingUpScreen> {
     setState(() {
       _isLoading = false;
     });
-    if (res != 'Success') {
+    if (res == 'Success') {
+      await Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
+    } else {
       showSnackBar(res, context);
     }
   }
