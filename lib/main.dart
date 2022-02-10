@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
                 child: CircularProgressIndicator(color: primaryColor),
               );
             }
-            return LoginScreen();
+            return const LoginScreen();
           },
         ));
   }
