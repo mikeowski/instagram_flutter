@@ -10,6 +10,10 @@ import 'package:instagram_flutter/utils/utils.dart';
 
 import 'package:instagram_flutter/widgets/text_field_input.dart';
 
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
+
 class SingUpScreen extends StatefulWidget {
   const SingUpScreen({Key? key}) : super(key: key);
 
@@ -55,11 +59,25 @@ class _SingUpScreenState extends State<SingUpScreen> {
       _isLoading = false;
     });
     if (res == 'Success') {
-      await Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+          ),
+        ),
+      );
     } else {
       showSnackBar(res, context);
     }
+  }
+
+  void navigateToLoginScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
   }
 
   @override
@@ -167,6 +185,25 @@ class _SingUpScreenState extends State<SingUpScreen> {
           Flexible(
             child: Container(),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: const Text("Do you have an account? "),
+                padding: const EdgeInsets.symmetric(vertical: 8),
+              ),
+              GestureDetector(
+                onTap: navigateToLoginScreen,
+                child: Container(
+                  child: const Text(
+                    "Log in",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                ),
+              )
+            ],
+          )
         ]),
       ),
     ));
