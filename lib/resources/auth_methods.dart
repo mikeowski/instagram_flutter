@@ -8,6 +8,17 @@ import 'package:instagram_flutter/resources/storage_methods.dart';
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+
+  //Get user details
+  Future<model.User> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+
+    DocumentSnapshot documentSnapshot =
+        await _fireStore.collection('users').doc(currentUser.uid).get();
+    model.User usr = model.User.fromSnapshot(documentSnapshot);
+    return usr;
+  }
+
   //Sign up the user
   Future<String> signUpUser({
     required String userName,
@@ -34,8 +45,8 @@ class AuthMethods {
           email: email,
           bio: bio,
           uid: cred.user!.uid,
-          fallowers: [],
-          fallowing: [],
+          followers: [],
+          following: [],
           photoUrl: photoUrl,
         );
         await _fireStore
