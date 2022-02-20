@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_flutter/resources/auth_methods.dart';
-import 'package:instagram_flutter/screens/login_screen.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 
 class MobileScreenLayout extends StatefulWidget {
@@ -13,64 +11,91 @@ class MobileScreenLayout extends StatefulWidget {
 }
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
-  String username = "";
+  int _page = 0;
+  late PageController pageController;
+
   @override
   void initState() {
     super.initState();
-    getUserName();
+    pageController = PageController();
   }
 
-  void getUserName() async {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+  }
+
+  void navigationTapped(int page) {
+    pageController.jumpToPage(page);
+  }
+
+  void onPageChanged(int page) {
     setState(() {
-      username = (snapshot.data() as Map<String, dynamic>)['username'];
+      _page = page;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    void logOutUser() async {
-      String res = await AuthMethods().logOutUser();
-      if (res == 'Success') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
-          ),
-        );
-      }
-    }
-
     return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Flexible(child: Container()),
-            Text("This is mobile Hi ${username}"),
-            InkWell(
-              onTap: logOutUser,
-              child: Container(
-                child: const Text("Log out"),
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: const ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4),
-                    ),
-                  ),
-                  color: blueColor,
-                ),
-              ),
+      body: PageView(
+        children: [
+          Center(child: Text('feed')),
+          Center(child: Text('search')),
+          Center(child: Text('add')),
+          Center(child: Text('favorites')),
+          Center(child: Text('profile')),
+        ],
+        controller: pageController,
+        onPageChanged: onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
+      ),
+      bottomNavigationBar: CupertinoTabBar(
+        backgroundColor: mobileBackgroundColor,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              _page != 0 ? Icons.home_outlined : Icons.home,
+              color: _page == 0 ? primaryColor : secondaryColor,
             ),
-            Flexible(child: Container()),
-          ],
-        ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.search,
+              color: _page == 1 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_box_outlined,
+              color: _page == 2 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              _page == 3 ? Icons.favorite : Icons.favorite_outline,
+              color: _page == 3 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: _page == 4 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+        ],
+        onTap: navigationTapped,
       ),
     );
   }
