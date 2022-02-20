@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
             onTap: singInUser,
             child: isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator.adaptive(),
                   )
                 : Container(
                     child: const Text("Log in"),

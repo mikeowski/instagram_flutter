@@ -164,7 +164,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
             onTap: signUpUser,
             child: _isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator.adaptive(),
                   )
                 : Container(
                     child: const Text("Sign up"),
