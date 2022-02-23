@@ -19,19 +19,27 @@ class addPostScreen extends StatefulWidget {
 class _addPostScreenState extends State<addPostScreen> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
+  bool _isLoading = false;
 
   void postImage(String uid, String username, String profImage) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       String res = await FirestoreMethods().uploadPost(
           _descriptionController.text, _file!, uid, username, profImage);
       if (res == 'Success') {
         showSnackBar('Posted!', context);
+        clearImage();
       } else {
         showSnackBar(res, context);
       }
     } catch (err) {
       showSnackBar(err.toString(), context);
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   _selectImage(BuildContext context) {
@@ -78,6 +86,12 @@ class _addPostScreenState extends State<addPostScreen> {
     _descriptionController.dispose();
   }
 
+  void clearImage() {
+    setState(() {
+      _file = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
@@ -115,6 +129,12 @@ class _addPostScreenState extends State<addPostScreen> {
             ),
             body: Column(
               children: [
+                _isLoading
+                    ? const LinearProgressIndicator()
+                    : const Padding(
+                        padding: EdgeInsets.only(top: 0),
+                      ),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
