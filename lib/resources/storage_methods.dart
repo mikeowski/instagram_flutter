@@ -17,16 +17,10 @@ class StorageMethods {
     bool isPost,
   ) async {
     Reference ref;
-
+    ref = _storage.ref().child(childName).child(_auth.currentUser!.uid);
     if (isPost) {
       String id = const Uuid().v1();
-      ref = _storage
-          .ref()
-          .child(childName)
-          .child(_auth.currentUser!.uid)
-          .child(id);
-    } else {
-      ref = _storage.ref().child(childName).child(_auth.currentUser!.uid);
+      ref = ref.child(id);
     }
     UploadTask uploadTask = ref.putData(file);
     TaskSnapshot snap = await uploadTask;
