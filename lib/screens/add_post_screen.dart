@@ -9,14 +9,14 @@ import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-class addPostScreen extends StatefulWidget {
-  const addPostScreen({Key? key}) : super(key: key);
+class AddPostScreen extends StatefulWidget {
+  const AddPostScreen({Key? key}) : super(key: key);
 
   @override
-  _addPostScreenState createState() => _addPostScreenState();
+  _AddPostScreenState createState() => _AddPostScreenState();
 }
 
-class _addPostScreenState extends State<addPostScreen> {
+class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
   bool _isLoading = false;
@@ -73,6 +73,13 @@ class _addPostScreenState extends State<addPostScreen> {
                       _file = file;
                     },
                   );
+                },
+              ),
+              SimpleDialogOption(
+                padding: const EdgeInsets.all(20),
+                child: const Text('Cancel'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
                 },
               ),
             ],
