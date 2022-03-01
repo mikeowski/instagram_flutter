@@ -15,12 +15,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: "AIzaSyCyB2cUO31Y_A1Vd5cbTmyH4lE1s5BAfws",
-            appId: "1:226145818576:web:0d0baa9365a1ff8ce24bd5",
-            messagingSenderId: "226145818576",
-            projectId: "instagram-clone-b94c0",
-            storageBucket: "instagram-clone-b94c0.appspot.com"));
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyCyB2cUO31Y_A1Vd5cbTmyH4lE1s5BAfws",
+          appId: "1:226145818576:web:0d0baa9365a1ff8ce24bd5",
+          messagingSenderId: "226145818576",
+          projectId: "instagram-clone-b94c0",
+          storageBucket: "instagram-clone-b94c0.appspot.com"),
+    );
   } else {
     await Firebase.initializeApp();
   }
