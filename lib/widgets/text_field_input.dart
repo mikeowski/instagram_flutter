@@ -5,18 +5,22 @@ class TextFieldInput extends StatelessWidget {
   final bool isPass;
   final String hintText;
   final TextInputType textInputType;
-  const TextFieldInput(
-      {Key? key,
-      required this.textEditingController,
-      this.isPass = false,
-      required this.hintText,
-      required this.textInputType})
-      : super(key: key);
+  final BorderRadius radius;
+  final bool isFilled;
+  const TextFieldInput({
+    Key? key,
+    required this.textEditingController,
+    this.isPass = false,
+    required this.hintText,
+    required this.textInputType,
+    this.radius = BorderRadius.zero,
+    this.isFilled = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final inputBorder =
-        OutlineInputBorder(borderSide: Divider.createBorderSide(context));
+    final inputBorder = OutlineInputBorder(
+        borderSide: Divider.createBorderSide(context), borderRadius: radius);
     return TextField(
       controller: textEditingController,
       decoration: InputDecoration(
@@ -24,7 +28,7 @@ class TextFieldInput extends StatelessWidget {
           border: inputBorder,
           focusedBorder: inputBorder,
           enabledBorder: inputBorder,
-          filled: true,
+          filled: isFilled,
           contentPadding: const EdgeInsets.all(8)),
       keyboardType: textInputType,
       obscureText: isPass,
