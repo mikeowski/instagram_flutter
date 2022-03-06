@@ -42,7 +42,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       body: PageView(
         children: homeScreenItems,
@@ -86,13 +85,9 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             backgroundColor: primaryColor,
           ),
           BottomNavigationBarItem(
-            icon: CircleAvatar(
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl),
-                radius: 13,
-              ),
-              radius: 15,
-              backgroundColor: _page == 4 ? primaryColor : secondaryColor,
+            icon: Icon(
+              Icons.person,
+              color: _page == 4 ? primaryColor : secondaryColor,
             ),
             label: '',
             backgroundColor: primaryColor,
