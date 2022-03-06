@@ -191,16 +191,18 @@ class _PostCardState extends State<PostCard> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DefaultTextStyle(
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .copyWith(fontWeight: FontWeight.w800),
-                  child: Text(
-                    widget.snap['likes'].length.toString() + ' likes',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
+                widget.snap['likes'].length != 0
+                    ? DefaultTextStyle(
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2!
+                            .copyWith(fontWeight: FontWeight.w800),
+                        child: Text(
+                          widget.snap['likes'].length.toString() + ' likes',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    : Container(),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(
