@@ -142,7 +142,10 @@ class _PostCardState extends State<PostCard> {
                   smallLike: true,
                   duration: const Duration(milliseconds: 400),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await FirestoreMethods().likePost(widget.snap['postId'],
+                          user.uid, widget.snap['likes']);
+                    },
                     icon: widget.snap['likes'].contains(user.uid)
                         ? const Icon(
                             Icons.favorite,
