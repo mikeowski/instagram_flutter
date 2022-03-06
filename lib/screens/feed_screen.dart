@@ -34,6 +34,11 @@ class FeedScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) => PostCard(
