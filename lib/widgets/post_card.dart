@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_flutter/models/user.dart';
 import 'package:instagram_flutter/providers/user_provider.dart';
 import 'package:instagram_flutter/resources/firestore_methods.dart';
 import 'package:instagram_flutter/screens/comments_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
+import 'package:instagram_flutter/utils/utils.dart';
 import 'package:instagram_flutter/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,15 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
+    deletePost() async {
+      String res = await FirestoreMethods()
+          .deletePost(widget.snap['postId'], widget.snap['uid'] == user.uid);
+      Navigator.of(context).pop();
+      if (res != 'Success') {
+        showSnackBar(res, context);
+      }
+    }
+
     return Container(
       color: mobileBackgroundColor,
       padding: const EdgeInsets.symmetric(
@@ -58,31 +69,18 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
+                  onPressed: () => {
                     showDialog(
-                        context: context,
-                        builder: (context) => Dialog(
-                              child: ListView(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                ),
-                                shrinkWrap: true,
-                                children: ['Delete']
-                                    .map(
-                                      (e) => InkWell(
-                                        onTap: () {},
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 12,
-                                            horizontal: 16,
-                                          ),
-                                          child: Text(e),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ));
+                      context: context,
+                      builder: (context) => CupertinoAlertDialog(
+                        actions: [
+                          CupertinoDialogAction(
+                            onPressed: deletePost,
+                            child: const Text("Delete Post"),
+                          ),
+                        ],
+                      ),
+                    ),
                   },
                   icon: const Icon(Icons.more_vert),
                 ),

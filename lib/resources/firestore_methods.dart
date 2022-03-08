@@ -36,6 +36,23 @@ class FirestoreMethods {
     return res;
   }
 
+  //delete post
+
+  Future<String> deletePost(String postId, bool isAccess) async {
+    String res = 'some error occured';
+    try {
+      if (isAccess) {
+        await _firestore.collection('posts').doc(postId).delete();
+        res = 'Success';
+      } else {
+        res = 'You can not delete this post';
+      }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
   //like post
   Future<void> likePost(String postId, String uid, List likes) async {
     try {
