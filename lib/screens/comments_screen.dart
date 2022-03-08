@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_flutter/models/user.dart';
 import 'package:instagram_flutter/providers/user_provider.dart';
 import 'package:instagram_flutter/utils/colors.dart';
+import 'package:instagram_flutter/widgets/comment_card.dart';
 import 'package:instagram_flutter/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +28,6 @@ class _CommentsScreenState extends State<CommentsScreen> {
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         title: const Text('Comments'),
-        centerTitle: false,
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
@@ -72,6 +72,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
           ),
         ),
       ),
+      body: CommentCard(),
     );
   }
 }
