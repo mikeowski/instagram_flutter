@@ -18,7 +18,8 @@ class _CommentCardState extends State<CommentCard> {
           //Profile image
           CircleAvatar(
             backgroundImage: NetworkImage(
-                'https://kstu.edu.tr/kstu-file/uploads/default-user-image.png'),
+              'https://kstu.edu.tr/kstu-file/uploads/default-user-image.png',
+            ),
             radius: 18,
           ),
           //user name - comment

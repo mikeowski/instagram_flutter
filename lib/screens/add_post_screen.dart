@@ -22,9 +22,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
   bool _isLoading = false;
 
   void postImage(String uid, String username, String profImage) async {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(
+      () {
+        _isLoading = true;
+      },
+    );
     try {
       String res = await FirestoreMethods().uploadPost(
           _descriptionController.text, _file!, uid, username, profImage);
