@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "226145818576",
-    "project_id": "instagram-clone-b94c0",
-    "storage_bucket": "instagram-clone-b94c0.appspot.com"
+    "project_number": "645903437449",
+    "project_id": "beylerinsta",
+    "storage_bucket": "beylerinsta.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:226145818576:android:6120e2299937d087e24bd5",
+        "mobilesdk_app_id": "1:645903437449:android:eb8358b1998dcb876b0058",
         "android_client_info": {
           "package_name": "com.example.instagram_flutter"
         }
       },
       "oauth_client": [
         {
-          "client_id": "226145818576-c6o83klvjoo4nghu594vo5q3c09a185m.apps.googleusercontent.com",
+          "client_id": "645903437449-nb4lj8r66vn5vhc5s53mtfilba7hejlb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyASv6BB-ttSyg29mI-JcL6boWcqCb9ww0c"
+          "current_key": "AIzaSyDLVX6NWoCRHyD4vnXtDXW0eUFf_6xTC1o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "226145818576-c6o83klvjoo4nghu594vo5q3c09a185m.apps.googleusercontent.com",
+              "client_id": "645903437449-nb4lj8r66vn5vhc5s53mtfilba7hejlb.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "226145818576-q8judgf3hqb1ta44quftarja7v0h3hpa.apps.googleusercontent.com",
+              "client_id": "645903437449-2grneajs3p79gpbo0451q8pq1iiqb86v.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.instagramFlutter"
