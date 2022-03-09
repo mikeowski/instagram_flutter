@@ -24,11 +24,13 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
     deletePost() async {
+      Navigator.of(context).pop();
       String res = await FirestoreMethods()
           .deletePost(widget.snap['postId'], widget.snap['uid'] == user.uid);
-      Navigator.of(context).pop();
       if (res != 'Success') {
         showSnackBar(res, context);
+      } else {
+        showSnackBar('Post Deleted', context);
       }
     }
 
@@ -104,7 +106,7 @@ class _PostCardState extends State<PostCard> {
                   width: double.infinity,
                   child: Image.network(
                     widget.snap['postUrl'],
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 AnimatedOpacity(
@@ -159,7 +161,9 @@ class _PostCardState extends State<PostCard> {
               IconButton(
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => CommentsScreen(),
+                    builder: (context) => CommentsScreen(snap: {
+                      'postId': widget.snap['postId'].toString(),
+                    }),
                   ),
                 ),
                 icon: const Icon(
@@ -236,11 +240,22 @@ class _PostCardState extends State<PostCard> {
                     padding: const EdgeInsets.symmetric(
                       vertical: 4,
                     ),
-                    child: const Text(
-                      "View all comments",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: secondaryColor,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => CommentsScreen(snap: {
+                              'postId': widget.snap['postId'].toString(),
+                            }),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "View all comments",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: secondaryColor,
+                        ),
                       ),
                     ),
                   ),
@@ -250,8 +265,11 @@ class _PostCardState extends State<PostCard> {
                     vertical: 3,
                   ),
                   child: Text(
-                    DateFormat.yMMMd().format(DateTime.parse(
-                        widget.snap['datePublished'].toDate().toString())),
+                    DateFormat.yMMMd().format(
+                      DateTime.parse(
+                        widget.snap['datePublished'].toDate().toString(),
+                      ),
+                    ),
                     style: const TextStyle(
                       fontSize: 16,
                       color: secondaryColor,
