@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instagram_flutter/screens/password_reset.dart';
 import 'package:instagram_flutter/screens/signup_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/utils/utils.dart';
@@ -55,6 +56,14 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const SingUpScreen(),
+      ),
+    );
+  }
+
+  void navigateToForgotPassword() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const PasswordReset(),
       ),
     );
   }
@@ -118,6 +127,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: blueColor,
                     ),
                   ),
+          ),
+          InkWell(
+            onTap: navigateToForgotPassword,
+            child: Container(
+              margin: const EdgeInsets.only(top: 4),
+              child: const Text(
+                'Forgot password',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 8),
+            ),
           ),
           Flexible(
             child: Container(),
