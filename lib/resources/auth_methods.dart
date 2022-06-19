@@ -89,4 +89,15 @@ class AuthMethods {
     }
     return res;
   }
+
+  Future<String> forgotPassword(String userEmail) async {
+    String res = "an error occured";
+    try {
+      await _auth.sendPasswordResetEmail(email: userEmail);
+      res = 'Success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
 }
