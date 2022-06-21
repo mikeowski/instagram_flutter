@@ -93,6 +93,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
             .collection('posts')
             .doc(widget.snap['postId'])
             .collection('comments')
+            .orderBy(
+              'datePublished',
+              descending: false,
+            )
             .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -107,7 +111,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
             );
           }
           return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
+            itemCount: (snapshot.data! as dynamic).docs.length,
             itemBuilder: (context, index) => CommentCard(
               snap: snapshot.data!.docs[index].data(),
             ),
