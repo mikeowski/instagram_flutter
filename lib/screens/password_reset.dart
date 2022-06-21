@@ -39,14 +39,18 @@ class _PasswordResetState extends State<PasswordReset> {
     });
     if (res == 'Success') {
       showSnackBar('email sended', context);
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
+      navigateToLoginScreen();
     } else {
       showSnackBar(res, context);
     }
+  }
+
+  void navigateToLoginScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
   }
 
   @override
@@ -106,6 +110,16 @@ class _PasswordResetState extends State<PasswordReset> {
 
           Flexible(
             child: Container(),
+          ),
+          InkWell(
+            onTap: navigateToLoginScreen,
+            child: Container(
+              child: const Text(
+                'Log In',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              padding: const EdgeInsets.only(bottom: 20),
+            ),
           ),
         ]),
       ),
