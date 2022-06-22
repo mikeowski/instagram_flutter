@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_flutter/models/user.dart';
 import 'package:instagram_flutter/providers/user_provider.dart';
 import 'package:instagram_flutter/resources/firestore_methods.dart';
 import 'package:instagram_flutter/screens/comments_screen.dart';
+import 'package:instagram_flutter/screens/profile_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/utils/utils.dart';
 import 'package:instagram_flutter/widgets/like_animation.dart';
@@ -20,6 +22,30 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
+  int commentLength = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCommentLength();
+  }
+
+  void getCommentLength() async {
+    try {
+      QuerySnapshot comment = await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(widget.snap['postId'])
+          .collection('comments')
+          .get();
+      setState(() {
+        commentLength = comment.docs.length;
+      });
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
@@ -49,10 +75,19 @@ class _PostCardState extends State<PostCard> {
             ).copyWith(right: 0),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: NetworkImage(
-                    widget.snap['profImage'],
+                InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(
+                        uid: widget.snap['uid'],
+                      ),
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 16,
+                    backgroundImage: NetworkImage(
+                      widget.snap['profImage'],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -250,9 +285,9 @@ class _PostCardState extends State<PostCard> {
                           ),
                         );
                       },
-                      child: const Text(
-                        "View all comments",
-                        style: TextStyle(
+                      child: Text(
+                        "View all ${commentLength > 0 ? commentLength : ""} comments",
+                        style: const TextStyle(
                           fontSize: 16,
                           color: secondaryColor,
                         ),
