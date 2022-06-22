@@ -45,30 +45,34 @@ class _SingUpScreenState extends State<SingUpScreen> {
   }
 
   void signUpUser() async {
-    setState(() {
-      _isLoading = true;
-    });
-    String res = await AuthMethods().signUpUser(
-      userName: _userNameController.text,
-      password: _passwordController.text,
-      email: _emailController.text,
-      bio: _bioController.text,
-      file: _image!,
-    );
-    setState(() {
-      _isLoading = false;
-    });
-    if (res == 'Success') {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const ResponsiveLayout(
-            mobileScreenLayout: MobileScreenLayout(),
-            webScreenLayout: WebScreenLayout(),
-          ),
-        ),
-      );
+    if (_image == Null) {
+      showSnackBar('please upload an image', context);
     } else {
-      showSnackBar(res, context);
+      setState(() {
+        _isLoading = true;
+      });
+      String res = await AuthMethods().signUpUser(
+        userName: _userNameController.text,
+        password: _passwordController.text,
+        email: _emailController.text,
+        bio: _bioController.text,
+        file: _image!,
+      );
+      setState(() {
+        _isLoading = false;
+      });
+      if (res == 'Success') {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const ResponsiveLayout(
+              mobileScreenLayout: MobileScreenLayout(),
+              webScreenLayout: WebScreenLayout(),
+            ),
+          ),
+        );
+      } else {
+        showSnackBar(res, context);
+      }
     }
   }
 
