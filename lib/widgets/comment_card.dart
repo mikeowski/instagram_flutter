@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_flutter/screens/profile_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:intl/intl.dart';
 
@@ -18,11 +19,20 @@ class _CommentCardState extends State<CommentCard> {
       child: Row(
         children: [
           //Profile image
-          CircleAvatar(
-            backgroundImage: NetworkImage(
-              widget.snap['profilePic'],
+          InkWell(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ProfileScreen(
+                  uid: widget.snap['uid'],
+                ),
+              ),
             ),
-            radius: 18,
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                widget.snap['profilePic'],
+              ),
+              radius: 18,
+            ),
           ),
           //user name - comment
           Expanded(
@@ -34,22 +44,31 @@ class _CommentCardState extends State<CommentCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: widget.snap['name'],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                  InkWell(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                          uid: widget.snap['uid'],
                         ),
-                        TextSpan(
-                            text: ' ' + widget.snap['text'],
+                      ),
+                    ),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: widget.snap['name'],
                             style: const TextStyle(
+                              fontWeight: FontWeight.bold,
                               color: Colors.white,
-                            )),
-                      ],
+                            ),
+                          ),
+                          TextSpan(
+                              text: ' ' + widget.snap['text'],
+                              style: const TextStyle(
+                                color: Colors.white,
+                              )),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
@@ -62,7 +81,7 @@ class _CommentCardState extends State<CommentCard> {
                           widget.snap['datePublished'].toDate().toString(),
                         ),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
                         color: secondaryColor,
@@ -77,7 +96,7 @@ class _CommentCardState extends State<CommentCard> {
             padding: const EdgeInsets.all(5),
             child: GestureDetector(
               onTap: () {},
-              child: Icon(
+              child: const Icon(
                 Icons.favorite_outline,
                 size: 16,
               ),
