@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instagram_flutter/models/post.dart';
 import 'package:instagram_flutter/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
+import 'package:instagram_flutter/models/user.dart';
+import 'package:instagram_flutter/providers/user_provider.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -83,6 +85,7 @@ class FirestoreMethods {
             .doc(commentId)
             .set({
           'profilePic': profilePic,
+          'commentId': commentId,
           'name': name,
           'text': text,
           'uid': uid,
@@ -121,6 +124,33 @@ class FirestoreMethods {
         });
         await _firestore.collection("users").doc(uid).update({
           'following': FieldValue.arrayUnion([followingId]),
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> likeComments(
+      String postId, String commentId, String uid, List likes) async {
+    try {
+      if (likes.contains(uid)) {
+        await _firestore
+            .collection('posts')
+            .doc(postId)
+            .collection("comments")
+            .doc(commentId)
+            .update({
+          'likes': FieldValue.arrayRemove([uid]),
+        });
+      } else {
+        await _firestore
+            .collection('posts')
+            .doc(postId)
+            .collection("comments")
+            .doc(commentId)
+            .update({
+          'likes': FieldValue.arrayUnion([uid]),
         });
       }
     } catch (e) {
