@@ -1,11 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_flutter/resources/firestore_methods.dart';
 import 'package:instagram_flutter/screens/profile_screen.dart';
+import 'package:instagram_flutter/screens/userList_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
+import 'package:instagram_flutter/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 
 class CommentCard extends StatefulWidget {
   final snap;
-  const CommentCard({Key? key, required this.snap}) : super(key: key);
+  final postId;
+  const CommentCard({Key? key, required this.snap, required this.postId})
+      : super(key: key);
 
   @override
   State<CommentCard> createState() => _CommentCardState();
@@ -72,33 +79,78 @@ class _CommentCardState extends State<CommentCard> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 4,
-                    ),
-                    child: Text(
-                      DateFormat.yMMMd().format(
-                        DateTime.parse(
-                          widget.snap['datePublished'].toDate().toString(),
-                        ),
+                      padding: const EdgeInsets.only(
+                        top: 4,
                       ),
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: secondaryColor,
-                      ),
-                    ),
-                  )
+                      child: Row(
+                        children: [
+                          Text(
+                            DateFormat.yMMMd().format(
+                              DateTime.parse(
+                                widget.snap['datePublished']
+                                    .toDate()
+                                    .toString(),
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: secondaryColor,
+                            ),
+                          ),
+                          widget.snap['likes'].length != 0
+                              ? InkWell(
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => UserListScreen(
+                                        type: 'likes',
+                                        userList: widget.snap['likes'],
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    '   ' +
+                                        widget.snap['likes'].length.toString() +
+                                        ' likes',
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: secondaryColor,
+                                    ),
+                                  ),
+                                )
+                              : const Text(""),
+                        ],
+                      )),
                 ],
               ),
             ),
           ),
           Container(
             padding: const EdgeInsets.all(5),
-            child: GestureDetector(
-              onTap: () {},
-              child: const Icon(
-                Icons.favorite_outline,
-                size: 16,
+            child: LikeAnimation(
+              isAnimating: widget.snap['likes']
+                  .contains(FirebaseAuth.instance.currentUser!.uid),
+              smallLike: true,
+              duration: const Duration(milliseconds: 400),
+              child: IconButton(
+                onPressed: () async {
+                  await FirestoreMethods().likeComments(
+                    widget.postId,
+                    widget.snap['commentId'],
+                    FirebaseAuth.instance.currentUser!.uid,
+                    widget.snap['likes'],
+                  );
+                },
+                icon: widget.snap['likes']
+                        .contains(FirebaseAuth.instance.currentUser!.uid)
+                    ? const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      )
+                    : const Icon(
+                        Icons.favorite_border,
+                      ),
               ),
             ),
           )
