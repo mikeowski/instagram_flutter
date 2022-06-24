@@ -9,6 +9,7 @@ import 'package:instagram_flutter/resources/auth_methods.dart';
 import 'package:instagram_flutter/resources/firestore_methods.dart';
 import 'package:instagram_flutter/screens/login_screen.dart';
 import 'package:instagram_flutter/screens/post_screen.dart';
+import 'package:instagram_flutter/screens/userList_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/utils/utils.dart';
 import 'package:instagram_flutter/widgets/follow_button.dart';
@@ -145,8 +146,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 builStateColumn(postLength, "posts"),
-                                builStateColumn(followers, "followers"),
-                                builStateColumn(following, "following"),
+                                InkWell(
+                                    onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UserListScreen(
+                                              type: 'followers',
+                                              userList: userData['followers'],
+                                            ),
+                                          ),
+                                        ),
+                                    child: builStateColumn(
+                                        followers, "followers")),
+                                InkWell(
+                                    onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UserListScreen(
+                                              type: 'following',
+                                              userList: userData['following'],
+                                            ),
+                                          ),
+                                        ),
+                                    child: builStateColumn(
+                                        following, "following")),
                               ],
                             ),
                           ),
