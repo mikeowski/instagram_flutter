@@ -6,6 +6,7 @@ import 'package:instagram_flutter/providers/user_provider.dart';
 import 'package:instagram_flutter/resources/firestore_methods.dart';
 import 'package:instagram_flutter/screens/comments_screen.dart';
 import 'package:instagram_flutter/screens/profile_screen.dart';
+import 'package:instagram_flutter/screens/userList_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/utils/utils.dart';
 import 'package:instagram_flutter/widgets/like_animation.dart';
@@ -243,14 +244,24 @@ class _PostCardState extends State<PostCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 widget.snap['likes'].length != 0
-                    ? DefaultTextStyle(
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2!
-                            .copyWith(fontWeight: FontWeight.w800),
-                        child: Text(
-                          widget.snap['likes'].length.toString() + ' likes',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                    ? InkWell(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UserListScreen(
+                              type: 'likes',
+                              userList: widget.snap['likes'],
+                            ),
+                          ),
+                        ),
+                        child: DefaultTextStyle(
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(fontWeight: FontWeight.w800),
+                          child: Text(
+                            widget.snap['likes'].length.toString() + ' likes',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       )
                     : Container(),
