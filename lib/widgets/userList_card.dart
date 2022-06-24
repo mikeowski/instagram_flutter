@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_flutter/screens/profile_screen.dart';
 
 class UserListCard extends StatefulWidget {
   final String uid;
@@ -41,24 +42,33 @@ class _UserListCardState extends State<UserListCard> {
           )
         : Container(
             padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    userData['photoUrl'],
+            child: InkWell(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ProfileScreen(
+                    uid: widget.uid,
                   ),
-                  radius: 30,
                 ),
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.only(left: 24),
-                  child: Text(
-                    userData['username'],
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      userData['photoUrl'],
+                    ),
+                    radius: 30,
                   ),
-                )),
-              ],
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.only(left: 24),
+                    child: Text(
+                      userData['username'],
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                  )),
+                ],
+              ),
             ),
           );
   }
