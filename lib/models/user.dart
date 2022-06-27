@@ -8,15 +8,18 @@ class User {
   final String bio;
   final List followers;
   final List following;
+  final bool isChecked;
 
-  const User(
-      {required this.username,
-      required this.uid,
-      required this.photoUrl,
-      required this.email,
-      required this.bio,
-      required this.followers,
-      required this.following});
+  const User({
+    required this.username,
+    required this.uid,
+    required this.photoUrl,
+    required this.email,
+    required this.bio,
+    required this.followers,
+    required this.following,
+    required this.isChecked,
+  });
 
   static User fromSnapshot(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -29,6 +32,7 @@ class User {
       bio: snapshot["bio"],
       followers: snapshot["followers"],
       following: snapshot["following"],
+      isChecked: snapshot["isChecked"],
     );
   }
 
@@ -40,5 +44,6 @@ class User {
         "bio": bio,
         "followers": followers,
         "following": following,
+        "isChecked": isChecked,
       };
 }
