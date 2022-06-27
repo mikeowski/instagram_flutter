@@ -48,6 +48,7 @@ class AuthMethods {
           followers: [],
           following: [],
           photoUrl: photoUrl,
+          isChecked: false,
         );
         await _fireStore
             .collection('users')

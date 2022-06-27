@@ -226,11 +226,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Container(
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.only(top: 15),
-                        child: Text(
-                          userData["username"],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              userData["username"],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            userData['isChecked']
+                                ? Container(
+                                    margin: const EdgeInsets.only(
+                                      left: 3,
+                                    ),
+                                    child: const Icon(
+                                      Icons.check_circle_rounded,
+                                      color: Colors.blue,
+                                      size: 20,
+                                    ),
+                                  )
+                                : Container(),
+                          ],
                         ),
                       ),
                       Container(
